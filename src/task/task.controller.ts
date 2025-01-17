@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -15,6 +25,17 @@ export class TaskController {
   @Get()
   findAll() {
     return this.taskService.findAll();
+  }
+
+  @Get('test-error')
+  testErrorHandler() {
+    try {
+      return this.taskService.testError();
+    } catch (e) {
+      throw new HttpException(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: e,
+      });
+    }
   }
 
   @Get(':id')
