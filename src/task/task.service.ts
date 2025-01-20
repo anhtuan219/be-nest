@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
@@ -28,6 +28,9 @@ export class TaskService {
   }
 
   testError() {
-    throw new Error('Test error exception');
+    const e = new Error('Test error exception');
+    throw new HttpException(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR, {
+      cause: e,
+    });
   }
 }

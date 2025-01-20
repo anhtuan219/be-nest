@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -29,13 +27,7 @@ export class TaskController {
 
   @Get('test-error')
   testErrorHandler() {
-    try {
-      return this.taskService.testError();
-    } catch (e) {
-      throw new HttpException(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR, {
-        cause: e,
-      });
-    }
+    return this.taskService.testError();
   }
 
   @Get(':id')
